@@ -19,7 +19,13 @@ to clean javascript (please do before committing)
 from django.contrib import admin
 from django.urls import path
 
+from . import api
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('admin/', admin.site.urls),
+    path('api/quote/history', api.quote_history_api),
+    path('api/quote/form', api.quote_form_api),
+    path('api/quote/history', api.quote_history_api),
+    path('api/login', api.login_api),
+    path('api/registration', api.registration_api),
 ]
