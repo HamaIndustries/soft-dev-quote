@@ -18,7 +18,15 @@ const router = createRouter({
       path: '/fuel',
       name: 'fuel',
       component: () => import('../views/FuelQuote.vue')
+    },
+
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('../profile/register.vue')
     }
+
+
   ]
 })
 
