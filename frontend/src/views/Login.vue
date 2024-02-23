@@ -1,6 +1,6 @@
 <template>
     <form @submit.prevent="submitForm">
-        <h1 class="red">Login</h1>
+        <h1 class="LoginHeader">Login </h1>
         <label>Username:</label>
         <input type="username" required v-model="username">
 
@@ -11,9 +11,9 @@
             <button>Login</button>
         </div>
 
-        <div class="registerClient red">
+        <div class="registerClient">
             <p>
-                Don't have an account? <a href="#" style="color:black;">Register</a>
+                Don't have an account? <a href="#">Register</a>
             </p>
         </div>
     </form>
@@ -37,6 +37,15 @@ export default {
 </script>
 
 <style scoped>
+
+.LoginHeader {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 40px;
+}
  form {
     max-width: 420px;
     margin: 30px auto;
@@ -75,7 +84,16 @@ export default {
     text-align: center;
  }
  .registerClient {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #2c3e50;
     text-align: center;
     margin-top: 20px;
  }
+
+ body {
+  margin: 0;
+  background: #eee;
+}
 </style>
