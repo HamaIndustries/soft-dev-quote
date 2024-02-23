@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "v-select": "^0.0.1",
+    "vue-multiselect": "^2.1.8"
+  },
+  "devDependencies": {
+    "stylus": "^0.62.0"
+  }
+}

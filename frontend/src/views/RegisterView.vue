@@ -1,12 +1,18 @@
 <template>
     <div class="regisPage">
-        <h1 class="regisHeader">Registration</h1>
-        <form class="regisForm"> 
+        <form class="regisForm" @submit.prevent="handleSubmit"> 
+            <h1 class="regisHeader">Registration</h1>
+
+            <label>Company Name: </label>
+            <input type="text" required v-model="companyName">
+
+
             <label>Create Username: </label>
             <input type="text" required v-model="username">
 
             <label>Create Password: </label>
             <input type="password" required v-model="password">
+            <div v-if="passwordError" class="pwError">{{ passwordError }}</div>
 
             <label>Confirm Password: </label>
             <input type="password" required v-model="confirmPassword">
@@ -21,10 +27,31 @@
 export default {
     data() {
         return {
+            companyName: "",
             username: "",
-            password: ""
+            password: "",
+            confirmPassword: "",
+            passwordError: ""
         };
+    },
+
+    methods: {
+        handleSubmit() {
+            if (this.password.length < 5) {
+                this.passwordError = "Password must be at least 5 characters long";
+                return;
+            }
+            if (this.password !== this.confirmPassword) {
+                this.passwordError = "Passwords do not match!";
+                return;
+            }
+            this.passwordError = "";
+            console.log("regis form submitted")
+        }
     }
+
+
+
 }
 
 
@@ -39,15 +66,23 @@ export default {
 
 .regisPage {
     text-align: center;
+    align-items: center;
+}
+
+.pwError {
+    color: black;
+    margin-top: 10px;
+    font-size: bold;
+    font-weight:400;
 }
 
 .regisHeader {
-    padding-left: 30px;
+    font-family: Avenir, Arial, Helvetica, sans-serif;
     font-size: bold;
     margin-bottom: 20px;
     font-weight: 550;
     font-size: 40px;
-    color: white;
+    color: black;
     letter-spacing: 3px;
 }
 .regisForm {
@@ -56,17 +91,20 @@ export default {
     margin-left: 30px;
     background: white;
     padding:40px;
-    border-radius: 10px;
+    border-radius: 15px;
 }
 
 .createAccount {
+    border: 0;
+    padding: 10px 15px;
+    font-family: Avenir, Arial, Helvetica, sans-serif;
     margin-top: 35px;
-    margin-left: 120px;
+    margin-left: 130px;
     background:lightskyblue;
     color: white;
-    border-radius: 10px;
+    border-radius: 20px;
     font-weight: 520;
-    font-size:30px;
+    font-size:25px;
     transition: 0.3s;
     letter-spacing: 1px;
 
