@@ -30,7 +30,7 @@
                 <input class="zip" type="number" required v-model="zipcode">
             </div>
                
-            <button type="submit" class="save">Save Information</button>
+            <SubmitButton type="submit" class="save">Save Information</SubmitButton>
 
         </form>
 
@@ -38,6 +38,8 @@
 </template>
 
 <script>
+
+import SubmitButton from '@/components/SubmitButton.vue';
 
 export default {
     data() {
@@ -73,15 +75,20 @@ export default {
     methods: {
         handleSubmit() {
             const zipSr = String(this.zipcode);
-            if (zipSr.length < 5) {
-                this.zipcodeError = "Zipcode must be at least 5 characters long!";
+            if (zipSr.length < 5 || zipSr.length > 9) {
+                this.zipcodeError = "Zipcode must be 5 to 9 characters long!";
                 return;
             }
     
             this.zipcodeError = "";
             console.log("profile form updated")
         }
-    }
+    },
+
+    components: {
+    SubmitButton,
+    SubmitButton
+}
 }
    
 </script>
@@ -132,17 +139,7 @@ export default {
     color: black;
 }
 .save {
-    border: 0;
-    padding: 10px 15px;
-    font-family: Avenir, Arial, Helvetica, sans-serif;
-    margin-top: 80px;
-    background:lightskyblue;
-    color: white;
-    border-radius: 20px;
-    font-weight: 520;
-    font-size:25px;
-    transition: 0.3s;
-    letter-spacing: 1px;
+    margin-top: 2rem;
 }
 
 .save:hover {

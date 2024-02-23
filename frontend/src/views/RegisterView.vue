@@ -17,13 +17,16 @@
             <label>Confirm Password: </label>
             <input type="password" required v-model="confirmPassword">
 
-            <button type="submit" class="createAccount">Create Account</button>
+            <SubmitButton type="submit">Create Account</SubmitButton>
         </form>
 
     </div>
 </template>
 
-<script>
+<script scoped>
+
+import SubmitButton from '@/components/SubmitButton.vue';
+
 export default {
     data() {
         return {
@@ -34,7 +37,6 @@ export default {
             passwordError: ""
         };
     },
-
     methods: {
         handleSubmit() {
             if (this.password.length < 5) {
@@ -46,12 +48,10 @@ export default {
                 return;
             }
             this.passwordError = "";
-            console.log("regis form submitted")
+            console.log("regis form submitted");
         }
-    }
-
-
-
+    },
+    components: { SubmitButton }
 }
 
 
@@ -93,27 +93,6 @@ export default {
     padding:40px;
     border-radius: 15px;
 }
-
-.createAccount {
-    border: 0;
-    padding: 10px 15px;
-    font-family: Avenir, Arial, Helvetica, sans-serif;
-    margin-top: 35px;
-    margin-left: 130px;
-    background:lightskyblue;
-    color: white;
-    border-radius: 20px;
-    font-weight: 520;
-    font-size:25px;
-    transition: 0.3s;
-    letter-spacing: 1px;
-
-}
-.createAccount:hover {
-    background: darkcyan;
-}
-
-
 
 label {
     color: #aaa;

@@ -1,4 +1,6 @@
-<script>
+<script scoped>
+import SubmitButton from '@/components/SubmitButton.vue';
+
 export default {
   name: 'FuelQuote',
   data() {
@@ -35,58 +37,50 @@ export default {
     checkHistory() {
       this.$router.push({ path: 'history' })
     }
+  },
+  components: {
+    SubmitButton
   }
 }
 </script>
 
 <template>
-  <div class="body">
-    <div class="container">
-      <h2>Fuel Quote</h2>
-      <form @submit.prevent="onSubmit">
-        <div class="group">
-          <label for="gallons">Gallons Requested</label>
-          <input type="number" id="gallons" v-model.number="form.gallons" required />
-        </div>
-        <div class="group">
-          <label for="address">Delivery Address</label>
-          <input type="text" id="address" v-model="form.address" readonly />
-        </div>
-        <div class="group">
-          <label for="delivery">Delivery Date</label>
-          <input type="date" id="delivery" v-model="form.delivery" required />
-        </div>
-        <div class="group">
-          <label for="price">Suggested Price</label>
-          <input type="text" id="price" v-model="price" readonly />
-        </div>
-        <div class="group">
-          <label for="amount">Total Amount Due</label>
-          <input type="text" id="amount" v-model="amount" readonly />
-        </div>
-        <div class="group">
-          <button type="submit">Get Quote</button>
-        </div>
-        <div class="group">
-          <button type="button" @click="checkHistory">Check History</button>
-        </div>
-      </form>
-    </div>
+<div class="container">
+    <h2>Fuel Quote</h2>
+    <form @submit.prevent="onSubmit">
+      <div class="group">
+        <label for="gallons">Gallons Requested</label>
+        <input type="number" id="gallons" v-model.number="form.gallons" required />
+      </div>
+      <div class="group">
+        <label for="address">Delivery Address</label>
+        <input type="text" id="address" v-model="form.address" readonly />
+      </div>
+      <div class="group">
+        <label for="delivery">Delivery Date</label>
+        <input type="date" id="delivery" v-model="form.delivery" required />
+      </div>
+      <div class="group">
+        <label for="price">Suggested Price</label>
+        <input type="text" id="price" v-model="price" readonly />
+      </div>
+      <div class="group">
+        <label for="amount">Total Amount Due</label>
+        <input type="text" id="amount" v-model="amount" readonly />
+      </div>
+      <div class="group separated">
+        <SubmitButton type="submit">Get Quote</SubmitButton>
+        <SubmitButton @click="checkHistory">Check History</SubmitButton>
+      </div>
+    </form>
   </div>
 </template>
 
 <style>
-.body {
-  color: #333;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  background-color: #eef2f3;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 .container {
+  color: #333;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   margin-top: 5%;
   margin-bottom: 5%;
   width: 340px;
@@ -113,7 +107,6 @@ export default {
 
 .group input {
   width: 100%;
-  padding: 15px;
   border: 1px solid #cfd8dc;
   border-radius: 6px;
   font-size: 14px;
@@ -131,7 +124,7 @@ export default {
 }
 
 .group button {
-  width: 100%;
+  width: 40%;
   padding: 15px;
   border: none;
   background-image: linear-gradient(135deg, #03551b 10%, #16d21f 90%);
@@ -142,7 +135,24 @@ export default {
   transition: background-image 0.3s ease;
 }
 
+
+.group.separated {
+  display: flex;
+  justify-content: space-between;
+}
+
 .group button:hover {
   background-image: linear-gradient(135deg, #2c2c2c 10%, #878787 90%);
 }
+
+form {
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .container {
+    width: 60%;
+  }
+}
+
 </style>

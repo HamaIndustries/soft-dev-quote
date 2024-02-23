@@ -10,11 +10,6 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/about',
-      name: 'about',
-      component: () => import('../views/AboutView.vue')
-    },
-    {
       path: '/fuel',
       name: 'fuel',
       component: () => import('../views/FuelQuote.vue')
@@ -35,7 +30,7 @@ const router = createRouter({
     {
       path: '/profile',
       name: 'profile',
-      component: () => import('../views/profileView.vue')
+      component: () => import('../views/ProfileView.vue')
     },
 
     {

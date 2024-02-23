@@ -13,7 +13,6 @@ import SiteHeader from './components/SiteHeader.vue'
 
         <nav>
           <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/about">About</RouterLink>
           <RouterLink to="/fuel">Fuel Quote</RouterLink>
           <RouterLink to="/login">Login</RouterLink>
           <RouterLink to="/register">Register</RouterLink>
@@ -31,11 +30,13 @@ import SiteHeader from './components/SiteHeader.vue'
 .site {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 header {
   line-height: 1.5;
   max-height: 100vh;
+  margin-bottom: 3rem;
 }
 
 .logo {
@@ -73,6 +74,7 @@ nav a:first-of-type {
     align-items: center;
     padding-right: calc(var(--section-gap) / 2);
     margin-bottom: 1rem;
+    width: 100%;
   }
 
   .logo {

@@ -1,6 +1,6 @@
 <template>
     <form @submit.prevent="submitForm">
-        <h1>Login</h1>
+        <h1 class="red">Login</h1>
         <label>Username:</label>
         <input type="username" required v-model="username">
 
@@ -11,9 +11,9 @@
             <button>Login</button>
         </div>
 
-        <div class="registerClient">
+        <div class="registerClient red">
             <p>
-                Don't have an account? <a href="#">Register</a>
+                Don't have an account? <a href="#" style="color:black;">Register</a>
             </p>
         </div>
     </form>
@@ -36,7 +36,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
  form {
     max-width: 420px;
     margin: 30px auto;
