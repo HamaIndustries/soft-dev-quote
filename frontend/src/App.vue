@@ -4,25 +4,32 @@ import SiteHeader from './components/SiteHeader.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <div class="site">
+    <header>
+      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
-    <div class="wrapper">
-      <SiteHeader msg="You did it!" />
+      <div class="wrapper">
+        <SiteHeader msg="Slick Solutions" />
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/fuel">Fuel Quote</RouterLink>
-        <RouterLink to="/register">Register</RouterLink>
-      </nav>
-    </div>
-  </header>
+        <nav>
+          <RouterLink to="/">Home</RouterLink>
+          <RouterLink to="/about">About</RouterLink>
+          <RouterLink to="/fuel">Fuel Quote</RouterLink>
+          <RouterLink to="/register">Register</RouterLink>
+        </nav>
+      </div>
+    </header>
 
   <RouterView />
+  </div>
 </template>
 
 <style scoped>
+.site {
+  display: flex;
+  flex-direction: column;
+}
+
 header {
   line-height: 1.5;
   max-height: 100vh;
@@ -34,10 +41,9 @@ header {
 }
 
 nav {
-  width: 100%;
   font-size: 12px;
   text-align: center;
-  margin-top: 2rem;
+  margin-top: 2rem; 
 }
 
 nav a.router-link-exact-active {
@@ -61,27 +67,30 @@ nav a:first-of-type {
 @media (min-width: 1024px) {
   header {
     display: flex;
-    place-items: center;
+    align-items: center;
     padding-right: calc(var(--section-gap) / 2);
+    margin-bottom: 1rem;
   }
 
   .logo {
-    margin: 0 2rem 0 0;
+    margin: 0 1.5rem 1rem 0;
   }
 
   header .wrapper {
     display: flex;
-    place-items: flex-start;
     flex-wrap: wrap;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
   }
 
   nav {
-    text-align: left;
-    margin-left: -1rem;
+    text-align: right;
+    margin-left: auto;
     font-size: 1rem;
 
     padding: 1rem 0;
-    margin-top: 1rem;
+    margin-top: initial;
   }
 }
 </style>
