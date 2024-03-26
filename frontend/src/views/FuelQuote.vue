@@ -20,6 +20,20 @@ export default {
     }
   },
   methods: {
+    getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    },
     calculate() {
       if (this.form.gallons == null || this.form.gallons === '') {
         this.price = ''
@@ -32,10 +46,34 @@ export default {
       }
     },
     onSubmit() {
-      console.log('Form submitted', this.form)
+      fetch('http://127.0.0.1:8000/api/pricing/fuelquote/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': this.getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+          gallons_requested: this.form.gallons,
+          delivery_address: this.form.address,
+          delivery_date: this.form.delivery,
+          suggested_price_per_gallon: parseFloat(this.price.replace('$', '')),
+          total_amount_due: parseFloat(this.amount.replace('$', ''))
+        })
+      })
+      .then(response => {
+        if(response.ok) {
+          return response.json();
+        }
+        throw new Error('Network response was not ok.');
+      })
+      .then(data => {
+        console.log(data);
+        this.$router.push({ path: 'quotehistory' });
+      })
+      .catch(error => console.error('Error:', error));
     },
     checkHistory() {
-      this.$router.push({ path: 'history' })
+      this.$router.push({ path: 'quotehistory' })
     }
   },
   components: {
