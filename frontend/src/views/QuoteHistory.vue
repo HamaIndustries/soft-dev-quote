@@ -12,7 +12,6 @@
         <tbody>
             <tr class = "table-row"
                 v-for = "row in quotes"
-                :key = "row.client"
             >
                 <td
                     class="table-column_item"
@@ -27,6 +26,11 @@
 </template>
 
 <script setup>
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+const routeData = route.query;
+console.log('Received data:', routeData);
 
 const props = defineProps({
     quotes: {
@@ -36,7 +40,7 @@ const props = defineProps({
 });
 
 const cols = [
-    "client", "gallonsRequested", "deliveryAddress", "deliveryDate", "suggestedPriceperGallon", "totalAmountdue"
+    "gallonsRequested", "deliveryAddress", "deliveryDate", "suggestedPriceperGallon", "totalAmountdue"
 ]
 
 const quotes = [
@@ -65,6 +69,18 @@ const quotes = [
         totalAmountdue: 10000
     }
 ];
+
+if (Object.keys(routeData).length > 0) {
+    const newQuote = {
+        client: routeData.address,
+        gallonsRequested: routeData.gallons,
+        deliveryAddress: routeData.address,
+        deliveryDate: routeData.delivery,
+        suggestedPriceperGallon: routeData.price,
+        totalAmountdue: routeData.amount
+    };
+    quotes.push(newQuote);
+}
 
 const labels = {
     client: 'Client',
