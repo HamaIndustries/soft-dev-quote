@@ -1,10 +1,9 @@
 from django.urls import path
+from .views import create_fuel_quote
 
 from . import views
 
 app_name = "pricing"
 urlpatterns = [
-    # examples
-    # path("", views.IndexView.as_view(), name="index"),
-    # path("<int:pk>/", views.DetailView.as_view(), name="detail"),
+    path('fuelquote/', create_fuel_quote, name='create_fuel_quote'),
 ]
