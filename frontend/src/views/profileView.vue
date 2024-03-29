@@ -117,6 +117,32 @@ export default {
       }
     },
 
+    async postData() {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/profile_mgmt', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: this.name,
+          address1: this.address1,
+          address2: this.address2,
+          city: this.city,
+          state: this.state,
+          zipcode: this.zipcode
+        })
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      console.log('Data received:', data);
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+        }
+    },
+
 
     handleSubmit() {
         const zipSr = String(this.zipcode);
@@ -127,6 +153,8 @@ export default {
 
         this.zipcodeError = "";
         console.log("profile form updated");
+
+        this.postData(); // send data to backend
     }
 },
 

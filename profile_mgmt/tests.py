@@ -26,6 +26,34 @@ class ProfileManagementTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {'message': 'Data received successfully'})
 
+    def test_invalid_data(self):
+        invalid_data = {
+            'name': 'Gojo Satoru',
+            'address1': '123 Main St',
+            'city': 'Anytown',
+            'state': 'CA',
+            # 'zipcode' is missing, which should cause the request to be invalid
+        }
+        response = self.client.post('/api/profile_mgmt', data=invalid_data)
+    
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('zipcode', response.json().get('errors', {}))
+        self.assertEqual(response.json()['errors']['zipcode'], ['This field is required.'])
+
+
+    def test_invalid_data_missing_fields(self):
+        invalid_data = {
+            'name': 'Gojo Satoru',
+            'city': 'Anytown',
+            'state': 'CA',
+        }
+        response = self.client.post('/api/profile_mgmt', data=invalid_data)
+        
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('address1', response.json().get('errors', {}))
+        self.assertIn('zipcode', response.json().get('errors', {}))
+
+
     
 
 
