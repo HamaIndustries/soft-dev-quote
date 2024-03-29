@@ -7,4 +7,6 @@ urlpatterns = [
     # examples
     # path("", views.IndexView.as_view(), name="index"),
     # path("<int:pk>/", views.DetailView.as_view(), name="detail"),
+    #path("", views.current_datetime, name="curent_datetime"),
+    path("", views.login_api, name="login_api")
 ]
