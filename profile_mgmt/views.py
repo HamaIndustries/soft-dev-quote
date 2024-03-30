@@ -6,12 +6,6 @@ from django.http import JsonResponse
 
 import datetime
 
-"""
-def current_datetime(request):
-    now = datetime.datetime.now()
-    data = {'current_datetime': now}
-    return JsonResponse(data)
-"""
 
 
 def profile_mgmt_api(request):
