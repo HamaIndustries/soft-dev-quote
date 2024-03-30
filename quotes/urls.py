@@ -27,5 +27,5 @@ urlpatterns = [
     path('api/quote/form', api.quote_form_api),
     path('api/login', include("login.urls")),
     path('api/profile_mgmt', include("profile_mgmt.urls")),
-    path('api/pricing', include("pricing.urls"))
+    path('api/pricing/', include("pricing.urls"))
 ]

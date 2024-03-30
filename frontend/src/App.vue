@@ -16,7 +16,7 @@ import SiteHeader from './components/SiteHeader.vue'
           <RouterLink to="/fuel">Fuel Quote</RouterLink>
           <RouterLink to="/login">Login</RouterLink>
           <RouterLink to="/register">Register</RouterLink>
-          <RouterLink to="/profile">Profile</RouterLink>
+          <RouterLink to="/profileManage">Profile</RouterLink>
           <RouterLink to="/quotehistory">Quote History</RouterLink>
         </nav>
       </div>

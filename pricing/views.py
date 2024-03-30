@@ -8,6 +8,7 @@ from .serializers import FuelQuoteSerializer
 
 @api_view(['POST'])
 def create_fuel_quote(request):
+    print("wwawawawawwa")
     serializer = FuelQuoteSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()

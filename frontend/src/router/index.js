@@ -24,14 +24,20 @@ const router = createRouter({
     {
       path: '/register',
       name: 'register',
-      component: () => import('../views/RegisterView.vue')
+      component: () => import('../views/register.vue')
     },
 
     {
-      path: '/profile',
-      name: 'profile',
-      component: () => import('../views/profileView.vue')
+      path: '/profileManage',
+      name: 'profilemanage',
+      component: () => import('../views/profileManage.vue')
     },
+
+    // {
+    //   path: '/profile',
+    //   name: 'profile',
+    //   component: () => import('../views/profileView.vue')
+    // },
 
     {
       path: '/quotehistory',
