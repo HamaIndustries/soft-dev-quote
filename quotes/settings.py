@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pricing.apps.PricingConfig',
+    'login.apps.LoginConfig',
     'corsheaders',
     'rest_framework'
 ]
