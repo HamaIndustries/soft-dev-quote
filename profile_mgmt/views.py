@@ -1,10 +1,12 @@
 from django.shortcuts import render
+from .forms import ProfileForm
 
 # Create your views here.
 from django.http import HttpResponse
 from django.http import JsonResponse
 
 import datetime
+import json
 
 
 
@@ -24,7 +26,23 @@ def profile_mgmt_api(request):
         return JsonResponse(data)
     
     elif request.method == 'POST':  # Handle POST requests
-        data = {'message': 'Data received successfully'}
-        return JsonResponse(data)
+        data = json.loads(request.body)
+
+        form = ProfileForm(data)
+        if form.is_valid():
+            # Processing valid data
+            name = form.cleaned_data['name']
+            address1 = form.cleaned_data['address1']
+            address2 = form.cleaned_data['address2']
+            city = form.cleaned_data['city']
+            state = form.cleaned_data['state']
+            zipcode = form.cleaned_data['zipcode']
+
+
+            return JsonResponse({'message': 'Data received successfully'})
+
+        else:
+            return JsonResponse(data)
+    
     
 
