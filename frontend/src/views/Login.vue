@@ -13,7 +13,7 @@
 
         <div class="registerClient">
             <p>
-                Don't have an account? <a href="#">Register</a>
+                Don't have an account? <RouterLink to="/register">Register</RouterLink>
             </p>
         </div>
     </form>
