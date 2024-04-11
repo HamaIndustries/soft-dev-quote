@@ -68,7 +68,16 @@ export default {
       })
       .then(data => {
         console.log(data);
-        this.$router.push({ path: 'quotehistory' });
+        this.$router.push({ 
+          path: 'quotehistory',
+          query: {
+            gallons: this.form.gallons,
+            address: this.form.address,
+            delivery: this.form.delivery,
+            price: parseFloat(this.price.replace('$', '')),
+            amount: parseFloat(this.amount.replace('$', ''))
+          } 
+        });
       })
       .catch(error => console.error('Error:', error));
     },
