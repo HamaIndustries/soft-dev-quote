@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pricing.apps.PricingConfig',
     'login.apps.LoginConfig',
+    'profile_mgmt.apps.ProfileMgmtConfig',
     'corsheaders',
     'rest_framework'
 ]
@@ -88,7 +89,7 @@ WSGI_APPLICATION = 'quotes.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME':BASE_DIR / 'db.sqlite3',
     }
 }
 
