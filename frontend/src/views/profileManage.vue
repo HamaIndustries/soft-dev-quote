@@ -108,7 +108,7 @@ export default {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
+        body: JSON.stringify({ 
           name: this.name,
           address1: this.address1,
           address2: this.address2,
@@ -120,8 +120,8 @@ export default {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      const data = await response.json();
-      console.log('Data received:', data);
+      const data = await response.json(); // get json data from backend
+      console.log('Data received:', data); // display it
 
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
@@ -139,7 +139,7 @@ export default {
         this.zipcodeError = "";
         console.log("profile form updated");
 
-        this.postData(); // send data to backend
+        this.postData(); // send frontend data to backend on submit
     }
 },
 
