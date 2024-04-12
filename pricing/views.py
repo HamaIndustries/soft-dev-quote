@@ -1,5 +1,4 @@
 from django.shortcuts import render
-# Inside your Django app's views.py file
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -8,7 +7,6 @@ from .serializers import FuelQuoteSerializer
 
 @api_view(['POST'])
 def create_fuel_quote(request):
-    print("wwawawawawwa")
     serializer = FuelQuoteSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()

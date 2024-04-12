@@ -43,4 +43,3 @@ class LoginCase(TestCase):
         self.assertEqual(response.status_code,400)
         self.assertIn('username', response.json().get('errors', {}))
         self.assertEqual(response.json()['errors']['username']['The input is not correct.'])
-            
