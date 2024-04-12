@@ -93,6 +93,7 @@ export default {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
+        
         this.profile = data;
         console.log(data);
         

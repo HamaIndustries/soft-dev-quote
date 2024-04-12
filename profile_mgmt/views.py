@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .forms import ProfileForm
+from .models import UserInfo
 
 # Create your views here.
 from django.http import HttpResponse
@@ -41,6 +42,16 @@ def profile_mgmt_api(request):
             city = form.cleaned_data['city']
             state = form.cleaned_data['state']
             zipcode = form.cleaned_data['zipcode']
+
+             # Save data to the database
+            user_profile = UserInfo.objects.create(
+                name=name,
+                address1=address1,
+                address2=address2,
+                city=city,
+                state=state,
+                zipcode=zipcode
+            )
 
 
             return JsonResponse({'message': 'Data received successfully'}) # send json data to frontend
