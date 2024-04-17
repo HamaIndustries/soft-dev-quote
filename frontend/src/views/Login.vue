@@ -29,11 +29,11 @@ export default {
             password: ''
         }
     },
-
+/*
     created() {
         this.fetchlogin();
     },
-
+*/
     methods: {
         async fetchlogin() {
             try {

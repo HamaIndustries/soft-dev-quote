@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponseBadRequest
+from .forms import LoginForm
+import json
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -22,8 +25,22 @@ def login_api(request):
         return JsonResponse(data)
     
     elif request.method == 'POST':
-        data = {'message': 'Success'}
-        return JsonResponse(data)
+        try:
+            data = json.loads(request.body)
+            
+        except json.JSONDecodeError:
+            return HttpResponseBadRequest('The format was not correct.')
+        
+        loginform = LoginForm(data)
+        if loginform.is_valid():
+            username = loginform.cleaned_data['username']
+            password = loginform.cleaned_data['password']
+
+            return JsonResponse({'message': 'The data was received.'})
+
+        else:
+            errors = dict(loginform.errors.items())
+            return JsonResponse({'errors': errors}, status=400)
 
 #@api_view(['POST'])
 

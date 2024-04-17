@@ -32,7 +32,7 @@ def profile_mgmt_api(request):
           
         except json.JSONDecodeError:
             return HttpResponseBadRequest('Invalid JSON format')
-
+        
         form = ProfileForm(data)
         if form.is_valid():
             # Processing valid data
