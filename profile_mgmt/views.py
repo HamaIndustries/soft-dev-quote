@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from .forms import ProfileForm
+from .models import UserInfo
 
 # Create your views here.
 from django.http import HttpResponse
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseBadRequest
 
 import datetime
 import json
@@ -26,8 +27,12 @@ def profile_mgmt_api(request):
         return JsonResponse(data)
     
     elif request.method == 'POST':  # Handle POST requests
-        data = json.loads(request.body)
-
+        try:
+            data = json.loads(request.body)
+          
+        except json.JSONDecodeError:
+            return HttpResponseBadRequest('Invalid JSON format')
+        
         form = ProfileForm(data)
         if form.is_valid():
             # Processing valid data
@@ -38,11 +43,22 @@ def profile_mgmt_api(request):
             state = form.cleaned_data['state']
             zipcode = form.cleaned_data['zipcode']
 
+             # Save data to the database
+            user_profile = UserInfo.objects.create(
+                name=name,
+                address1=address1,
+                address2=address2,
+                city=city,
+                state=state,
+                zipcode=zipcode
+            )
 
-            return JsonResponse({'message': 'Data received successfully'})
+
+            return JsonResponse({'message': 'Data received successfully'}) # send json data to frontend
 
         else:
-            return JsonResponse(data)
+            errors = dict(form.errors.items())
+            return JsonResponse({'errors': errors}, status=400)
     
     
 
