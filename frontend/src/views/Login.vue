@@ -21,6 +21,9 @@
 </template>
  
 <script>
+
+//const cookies = new Cookies();
+
 export default {
     data() {
         return {
@@ -29,12 +32,58 @@ export default {
             password: ''
         }
     },
+
+    methods: {
+/*
+        this.state = {
+            username: '',
+            password: '',
+            error: '',
+            isAuthenticated: false
+        },
+*/
+
+        submitForm() {
+            fetch('http://127.0.0.1:8000/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': cookies.get('csrftoken') 
+                },
+
+                credentials: 'same-origin',
+                body: JSON.stringify({
+                    username: this.username,
+                    password: this.password
+                })
+            })
+
+            .then(response => {
+                if(response.ok) {
+                    return response.json();
+                }
+                throw new Error('The Network response failed.');
+            })
+
+            .then((data ) => {
+                console.log(data);
+                this.setState({isAuthenticated: true, username: '', password: '', error: ''});    
+            })
+            .catch((error) => {
+                console.log(err)
+                this.setState({error: 'Incorrect username or password'})
+            })
+        },
+
+
+
 /*
     created() {
         this.fetchlogin();
     },
 */
-    methods: {
+
+/*
         async fetchlogin() {
             try {
                 const response = await fetch('http://127.0.0.1:8000/api/login');
@@ -79,28 +128,7 @@ export default {
 
             this.postInfo();
         },
-
-        /*
-        submitForm() {
-            fetch('http://127.0.0.1:8000/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-
-                body: JSON.stringify({
-                    username: this.username,
-                    pas
-                    sword: this.password
-                })
-            })
-            .then(response => {
-                if(response.ok) {
-                    return response.json();
-                }
-                throw new Error('The Network response failed.');
-            })
-        },*/
+*/
 
     }
 }
