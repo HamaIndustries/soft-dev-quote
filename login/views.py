@@ -36,7 +36,7 @@ def login_api(request):
         
         loginform = LoginForm(data)
         if loginform.is_valid():
-            username = loginform.cleaned_data['username']
+            username = loginform.cleaned_data['username'].lower()
             password = loginform.cleaned_data['password']
             
             
@@ -45,7 +45,7 @@ def login_api(request):
 
             if user is not None:
                 login(request, user)
-                return JsonResponse({'message': 'Login successful'})
+                return JsonResponse({'message': 'Login successful', 'session': username})
             else:
                  # Debug information
                 try:
@@ -59,7 +59,7 @@ def login_api(request):
                 except User.DoesNotExist:
                     print(f"User with username {username} does not exist.")
                 
-                return JsonResponse({'error': 'Invalid credentials'})
+                return JsonResponse({'error': 'Invalid credentials'}, status=400)
         
 
     return JsonResponse({'message': 'The data was received.'})
@@ -84,13 +84,16 @@ def registerAccount(request):
         
         loginform = LoginForm(data)
         if loginform.is_valid():
-            username = loginform.cleaned_data['username']
+            username = loginform.cleaned_data['username'].lower()
             password = make_password(loginform.cleaned_data['password'])
 
              # Create a new user
+            if User.objects.filter(username=username).exists():
+                return JsonResponse({'errors': {'user_exists': username}}, status=400)
+            
             user = User.objects.create(username=username, password=password)
 
-            return JsonResponse({'message': 'The data was received.'})
+            return JsonResponse({'message': 'The data was received.', "session": username})
 
         else:
             errors = dict(loginform.errors.items())

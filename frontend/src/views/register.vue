@@ -8,6 +8,7 @@
 
             <label>Create Username: </label>
             <input type="text" required v-model="username">
+            <div v-if="usernameError" class="pwError">{{ usernameError }}</div>
 
             <label>Create Password: </label>
             <input type="password" required v-model="password">
@@ -23,6 +24,9 @@
 </template>
 
 <script>
+import router from '@/router';
+import sessions from "../session/sessions"
+
 export default {
     data() {
         return {
@@ -30,8 +34,10 @@ export default {
             username: "",
             password: "",
             confirmPassword: "",
-            passwordError: ""
-        };
+            passwordError: "",
+            usernameError: "",
+            success: false
+        }
     },
 
     methods: {
@@ -64,11 +70,17 @@ export default {
                 });
 
                 if(!response.ok) {
+                    let resp = await response.json();
+                    if (resp.errors && resp.errors["user_exists"]) {
+                        this.usernameError = `username already exists: ${resp.errors["user_exists"]}`;
+                    }
                     throw new Error('Network response was not ok.');
                 }
-
+                
                 const data = await response.json();
-                console.log('Data has been received:', data);
+                console.log('User registered, Data has been received:', data);
+                sessions.startSession(data.session)
+                this.$nextTick(() => this.$router.push("profilemanage"))
             } catch (error) {
                 console.error('Fetch operation was not completed.', error);
             }

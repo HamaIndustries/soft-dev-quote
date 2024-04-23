@@ -30,7 +30,10 @@
                 <input class="zip" type="number" required v-model="zipcode">
             </div>
                
-            <SubmitButton type="submit" class="save">Save Information</SubmitButton>
+            <div style="display:flex; flex-flow: row nowrap; align-items: baseline;">
+                <SubmitButton type="submit" class="save">Save Information</SubmitButton>
+                <div v-if="success" style="color:green;margin-left:auto;">Information updated successfully</div>
+            </div>
 
         </form>
 
@@ -40,6 +43,7 @@
 <script>
 
 import SubmitButton from '@/components/SubmitButton.vue';
+import { getSession } from '@/session/sessions';
 
 export default {
     data() {
@@ -69,42 +73,39 @@ export default {
           'Texas', 'Utah', 'Vermont', 'Virgin Island', 'Virginia',
           'Washington', 'West Virginia', 'Wisconsin', 'Wyoming',
         ],
-
-       
-            
-        };
+        success: false
+        }
     },
 
-    /*
     created() {
         this.fetchProfile();
     },
-    */
-
-    
-    
 
     methods: {
-
         async fetchProfile() {
-      try {
-        const response = await fetch('http://127.0.0.1:8000/api/profile_mgmt');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/profile_mgmt?session=' + getSession());
+            if (!response.ok) {
+            throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            
+            this.profile = data;
+            this.setVals(data);
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
         }
-        const data = await response.json();
-        
-        this.profile = data;
-        console.log(data);
-        
-      } catch (error) {
-        console.error('There was a problem with the fetch operation:', error);
-      }
+    },
+
+    setVals(data) {
+        for (var key of Object.keys(data)) {
+            this[key] = data[key]
+        }
     },
 
     async postData() {
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/profile_mgmt', {
+      const response = await fetch('http://127.0.0.1:8000/api/profile_mgmt?session=' + getSession(), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -119,12 +120,15 @@ export default {
         })
       });
       if (!response.ok) {
+        this.success = false
         throw new Error('Network response was not ok');
       }
       const data = await response.json(); // get json data from backend
+      this.success = true;
       console.log('Data received:', data); // display it
 
     } catch (error) {
+        this.success = false
       console.error('There was a problem with the fetch operation:', error);
         }
     },

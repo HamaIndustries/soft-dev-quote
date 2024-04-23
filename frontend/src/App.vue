@@ -1,6 +1,11 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import { sessionExists, endSession, sess } from './session/sessions';
 import SiteHeader from './components/SiteHeader.vue'
+
+function  log_out() {
+  endSession()
+}
 </script>
 
 <template>
@@ -13,11 +18,12 @@ import SiteHeader from './components/SiteHeader.vue'
 
         <nav>
           <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/fuel">Fuel Quote</RouterLink>
-          <RouterLink to="/login">Login</RouterLink>
-          <RouterLink to="/register">Register</RouterLink>
-          <RouterLink to="/profileManage">Profile</RouterLink>
-          <RouterLink to="/quotehistory">Quote History</RouterLink>
+          <RouterLink to="/fuel" v-if="sess.logged_in">Fuel Quote</RouterLink>
+          <RouterLink to="/login" v-if="!sess.logged_in">Login</RouterLink>
+          <RouterLink to="/register" v-if="!sess.logged_in">Register</RouterLink>
+          <RouterLink to="/profileManage" v-if="sess.logged_in">Profile</RouterLink>
+          <RouterLink to="/quotehistory" v-if="sess.logged_in">Quote History</RouterLink>
+          <RouterLink to="/" v-if="sess.logged_in" @click.native="log_out">Log Out</RouterLink>
         </nav>
       </div>
     </header>

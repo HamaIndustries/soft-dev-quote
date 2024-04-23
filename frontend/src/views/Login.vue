@@ -4,10 +4,12 @@
         <label>Username:</label>
         <input type="username" required v-model="username">
 
+
         <label>Password:</label>
         <input type="password" required v-model="password">
 
         <div class="submit">
+            <div v-if="error" style="color:red;">Username or password invalid!</div>
             <button>Login</button>
         </div>
 
@@ -21,12 +23,15 @@
 </template>
  
 <script>
+import { startSession } from '@/session/sessions';
+
 export default {
     data() {
         return {
             loginInfo: {},
             username: '',
-            password: ''
+            password: '',
+            error: false
         }
     },
 /*
@@ -64,11 +69,14 @@ export default {
                 });
 
                 if(!response.ok) {
+                    this.error = true
                     throw new Error('Network response was not ok.');
                 }
 
                 const data = await response.json();
                 console.log('Data has been received:', data);
+                startSession(data.session)
+                this.$nextTick(() => this.$router.push("profilemanage"))
             } catch (error) {
                 console.error('Fetch operation was not completed.', error);
             }
