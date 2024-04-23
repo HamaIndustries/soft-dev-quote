@@ -39,8 +39,20 @@ export default {
         this.price = ''
         this.amount = ''
       } else {
-        const unit_price = 10
-        const total_price = this.form.gallons * unit_price
+        const unit_price = 1.5
+        var locationFactor = 0.04
+        var rateHistory = 0
+        var requestFactor = 0.03
+        const profitFactor = 0.1
+        if (this.form.gallons > 1000){
+          requestFactor = 0.02
+        }
+        if (this.form.address == 'Texas'){
+          locationFactor = 0.02
+        }
+        const total_price = this.form.gallons * (unit_price + (locationFactor - rateHistory + requestFactor + profitFactor)*unit_price)
+        console.log(total_price)
+        console.log(unit_price)
         this.price = `$${unit_price}`
         this.amount = `$${total_price}`
       }
