@@ -35,6 +35,45 @@ export default {
     },
 
     methods: {
+        async fetchlogin() {
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/loginregister');
+                if(!response.ok) {
+                    throw new Error('Network response was not ok.');
+                }
+
+                const data = await response.json();
+                this.loginInfo = data;
+                console.log(data);
+            } catch (error) {
+                console.error('Fetch operation was not completed.', error);
+            }
+        },
+
+        async postInfo() {
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/loginregister', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: this.username,
+                        password: this.password
+                    })
+                });
+
+                if(!response.ok) {
+                    throw new Error('Network response was not ok.');
+                }
+
+                const data = await response.json();
+                console.log('Data has been received:', data);
+            } catch (error) {
+                console.error('Fetch operation was not completed.', error);
+            }
+        },
+
         handleSubmit() {
             if (this.password.length < 5) {
                 this.passwordError = "Password must be at least 5 characters long";
@@ -44,7 +83,9 @@ export default {
                 this.passwordError = "Passwords do not match!";
                 return;
             }
+
             this.passwordError = "";
+            this.postInfo();
             console.log("regis form submitted")
         }
     }

@@ -56,3 +56,11 @@ class LoginCase(TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertIn('username', response.json().get('errors', {}))
         self.assertEqual(response.json()['errors']['username'], ['This field is required.'])
+
+    def test_register_valid_data(self):
+        data = {
+            'username' : 'newusername',
+            'password' : 'thisisthepassword1234',
+        }
+        response = self.client.post('/api/loginregister', data, format='json')
+        self.assertEqual(response.status_code, 200)
