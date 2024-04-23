@@ -8,5 +8,8 @@ urlpatterns = [
     # path("", views.IndexView.as_view(), name="index"),
     # path("<int:pk>/", views.DetailView.as_view(), name="detail"),
     #path("", views.current_datetime, name="curent_datetime"),
-    path("", views.login_api, name="login_api")
+    path("login/", views.login_api, name="login_api"),
+    path("logout/", views.logout_api, name="logout_api"),
+    path("session/", views.session_api, name="session_api")
+
 ]
