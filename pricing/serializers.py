@@ -5,4 +5,4 @@ from .models import FuelQuote
 class FuelQuoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = FuelQuote
-        fields = '__all__'
+        fields = "gallons_requested delivery_address delivery_date suggested_price_per_gallon total_amount_due".split()

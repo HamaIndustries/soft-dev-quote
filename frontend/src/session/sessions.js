@@ -15,7 +15,7 @@ export const sess = reactive({
 export function startSession(username) {
     // we're not even going to bother with timing out :D why not
     sessionStorage.setItem("session", username)
-    nextTick(() => sess.logged_in = true)
+    sess.logged_in = true
 }
 
 export function getSession() {

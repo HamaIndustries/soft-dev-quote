@@ -1,5 +1,6 @@
 <script scoped>
 import SubmitButton from '@/components/SubmitButton.vue';
+import { getSession } from '@/session/sessions';
 
 export default {
   name: 'FuelQuote',
@@ -58,7 +59,7 @@ export default {
       }
     },
     onSubmit() {
-      fetch('http://127.0.0.1:8000/api/pricing/fuelquote/', {
+      fetch('http://127.0.0.1:8000/api/pricing/fuelquote/?session=' + getSession(), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

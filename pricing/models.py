@@ -1,5 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 class FuelQuote(models.Model):
+    owner = models.ForeignKey(to=User, on_delete=models.CASCADE)
     gallons_requested = models.IntegerField()
     delivery_address = models.CharField(max_length=255)
     delivery_date = models.DateField()

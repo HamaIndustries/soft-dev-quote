@@ -1,6 +1,16 @@
 import json
 
+from django.shortcuts import render
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponseBadRequest
+from django.contrib.auth import authenticate, login, logout 
+from django.contrib.auth.models import User
+import json
+
 from django.http import HttpRequest, HttpResponse, response
+
+from pricing.models import FuelQuote
 
 def login_api(request: HttpRequest):
     """
@@ -18,24 +28,18 @@ def registration_api(request: HttpRequest):
     """
 
 def quote_history_api(request: HttpRequest):
-    """
-    Accepts JSON object describing requested user and filters, and responds with JSON object containing list of quote history entries.
-    """
-    fake_quote_data = [
-        {"id": 1, "name": "huuuuge big contract", "cost": 12.00, "date": "2024-02-03"},
-        {"id": 56, "name": "burger", "cost": 2.00, "date": "2024-02-05"},
-        {"id": 23453, "name": "really expensive burger construction", "cost": 10000000.00, "date": "2024-02-22"},
-        {"id": 43, "name": "dirt but if it was awesome", "cost": 0.69, "date": "2024-02-16"},
-    ]
-
-    resp_body = {
-        "data": fake_quote_data,
-        "page_count": 20,
-        "current_page": 1,
-        "sort": "asc"
-    }
-
-    return HttpResponse(json.dumps(resp_body), content_type="application/json", status=200) # pretend database responds with modified accepted data
+    data = { "history" : [] }
+    if session := request.GET["session"]:
+        try:
+            user = User.objects.get(username=session)
+        except User.DoesNotExist:
+            return JsonResponse({"error": "you are not logged in"}, status=400)
+        
+        data["history"] = list(
+            FuelQuote.objects.values().filter(owner=user)
+        )
+    return JsonResponse(data, status=200)
+    
 
 def quote_form_api(request: HttpRequest):
     """
