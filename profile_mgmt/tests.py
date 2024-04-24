@@ -1,6 +1,8 @@
 from django.test import TestCase, Client
 from django.urls import reverse, resolve
 from rest_framework.test import APIClient
+from django.contrib.auth.models import User
+from profile_mgmt.models import UserInfo
 
 from .views import profile_mgmt_api
 
@@ -8,14 +10,28 @@ from .views import profile_mgmt_api
 class ProfileManagementTestCase(TestCase):
     def setUp(self):
         self.client = APIClient()
+        geto = User(username="geto", password="1234")
+        geto.save()
+        UserInfo.objects.get_or_create(
+            user=geto,
+            defaults={
+                'name': 'Geto Suguru',
+                'address1': '1234 Tokyo Str',
+                'address2': '',
+                'city': 'Tokyo',
+                'state': 'JP',
+                'zipcode': '12345',
+            }
+        )
+        
     
     def test_profile_mgmt_api(self):
-        response = self.client.get('/api/profile_mgmt')
+        response = self.client.get('/api/profile_mgmt?session=geto')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Type'], 'application/json')
 
     def test_get_request(self): # test if dummy data matches
-        response = self.client.get('/api/profile_mgmt')
+        response = self.client.get('/api/profile_mgmt?session=geto')
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
             str(response.content, encoding='utf8'),
@@ -25,12 +41,12 @@ class ProfileManagementTestCase(TestCase):
                 'address2': '',
                 'city': 'Tokyo',
                 'state': 'JP',
-                'zipcode': '12345',
+                'zipcode': 12345,
             }
         )
 
     def test_post_request(self):
-        url = reverse('profile_mgmt:profile_mgmt_api') 
+        url = reverse('profile_mgmt:profile_mgmt_api') + '?session=geto'
         data = {
             'name': 'John Doe',
             'address1': '123 Main St',
@@ -55,7 +71,7 @@ class ProfileManagementTestCase(TestCase):
             'state': 'CA',
             'zipcode': "12345",
         }
-        response = self.client.post('/api/profile_mgmt', data, format='json')
+        response = self.client.post('/api/profile_mgmt?session=geto', data, format='json')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {'message': 'Data received successfully'})
 
@@ -70,7 +86,7 @@ class ProfileManagementTestCase(TestCase):
             'state': 'CA',
             'zipcode': '',  
         }
-        response = self.client.post('/api/profile_mgmt', data=invalid_data, format="json")
+        response = self.client.post('/api/profile_mgmt?session=geto', data=invalid_data, format="json")
         
         self.assertEqual(response.status_code, 400)
         self.assertIn('address1', response.json().get('errors', {}))
@@ -85,7 +101,7 @@ class ProfileManagementTestCase(TestCase):
             'state': 'CA',
             'zipcode': '1234',  # zipcode does not satisfy length
         }
-        response = self.client.post('/api/profile_mgmt', data=invalid_data, format="json")
+        response = self.client.post('/api/profile_mgmt?session=geto', data=invalid_data, format="json")
         
         self.assertEqual(response.status_code, 400)
         self.assertIn('zipcode', response.json().get('errors', {}))
@@ -100,7 +116,7 @@ class ProfileManagementTestCase(TestCase):
             'state': 'CA',
             'zipcode': '12345',
         }
-        response = self.client.post('/api/profile_mgmt', data=invalid_data, format='json')
+        response = self.client.post('/api/profile_mgmt?session=geto', data=invalid_data, format='json')
         
         self.assertEqual(response.status_code, 400)
         self.assertIn('name', response.json().get('errors', {}))

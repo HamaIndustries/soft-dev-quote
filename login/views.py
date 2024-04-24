@@ -41,8 +41,6 @@ def login_api(request):
             
             
             user = authenticate(request, username=username, password=password)
-          
-
             if user is not None:
                 login(request, user)
                 return JsonResponse({'message': 'Login successful', 'session': username})
@@ -60,6 +58,10 @@ def login_api(request):
                     print(f"User with username {username} does not exist.")
                 
                 return JsonResponse({'error': 'Invalid credentials'}, status=400)
+        else:
+            if not loginform.cleaned_data.get('username'):
+                return JsonResponse({'errors': {'username': ['This field is required.']}}, status=400)
+            return JsonResponse({'error': 'Invalid credentials'}, status=400)
         
 
     return JsonResponse({'message': 'The data was received.'})
